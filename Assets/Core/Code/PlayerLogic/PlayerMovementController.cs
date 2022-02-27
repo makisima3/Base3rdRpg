@@ -38,21 +38,13 @@ namespace Core.Code.PlayerLogic
 
         private void Update()
         {
-            if (joystick.Direction == Vector2.zero)
-            {
-                IsMoving = false;
-            }
-            else
-            {
-                IsMoving = true;
-            }
+            IsMoving = !(joystick.Direction.magnitude < Mathf.Epsilon);
 
             targetSpeed = joystick.Direction.magnitude * playerStats.Speed;
                 
             if (Mathf.Abs(joystick.Direction.magnitude - _prevDirectionMagnitude) > dashEdge)
             {
                 targetSpeed += dashForce;
-                Debug.Log("Dash");
             }
 
             _prevDirectionMagnitude = joystick.Direction.magnitude;

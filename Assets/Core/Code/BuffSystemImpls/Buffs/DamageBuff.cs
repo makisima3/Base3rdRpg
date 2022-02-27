@@ -11,6 +11,7 @@ namespace Core.Code.BuffSystemImpls.Buffs
         [SerializeField] private float duration = 5f;
         [SerializeField] private float multiplier = 1.5f;
 
+        public DurationType DurationType => DurationType.Common;
         public float Duration => duration;
 
         public void Apply(IHasDamageStat stats)

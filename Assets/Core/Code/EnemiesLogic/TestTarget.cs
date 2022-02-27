@@ -2,7 +2,7 @@
 
 namespace Core.Code.EnemiesLogic
 {
-    public class TestTarget : ITarget
+    public class TestTarget : MonoBehaviour, ITarget
     {
         public void TakeDamage(float damage)
         {

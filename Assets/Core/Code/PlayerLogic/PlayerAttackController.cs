@@ -19,6 +19,8 @@ namespace Core.Code.PlayerLogic
         private Coroutine attackCorotine;
         private List<ITarget> targetsInAttackRange;
 
+        private bool _isAtatck;
+        
         public void Init()
         {
             targetsInAttackRange = new List<ITarget>();
@@ -26,23 +28,28 @@ namespace Core.Code.PlayerLogic
 
         private void Update()
         {
-            if (movementController.IsMoving)
+            Debug.Log(movementController.IsMoving);
+            
+            /*if (movementController.IsMoving)
             {
                 if (attackCorotine != null)
                 {
                     StopCoroutine(attackCorotine);
                     attackCorotine = null;
                 }
-            }
+            }*/
         }
 
         private IEnumerator AttackCorotine()
         {
-            while (true)
+            while (_isAtatck)
             {
-                foreach (var target in targetsInAttackRange)
+                if (!movementController.IsMoving)
                 {
-                    target.TakeDamage(playerStats.Damage);
+                    foreach (var target in targetsInAttackRange)
+                    {
+                        target.TakeDamage(playerStats.Damage);
+                    }
                 }
 
                 yield return new WaitForSeconds(1 / playerStats.AttackRate);
@@ -57,8 +64,16 @@ namespace Core.Code.PlayerLogic
 
                 if (targetsInAttackRange.Count == 1)
                 {
-                    if(!movementController.IsMoving)
-                        attackCorotine = StartCoroutine(AttackCorotine());
+                    _isAtatck = true;
+
+                    if (attackCorotine != null)
+                    {
+                        StopCoroutine(attackCorotine);
+
+                        attackCorotine = null;
+                    }
+                    
+                    attackCorotine = StartCoroutine(AttackCorotine());
                 }
             }
         }
@@ -69,9 +84,14 @@ namespace Core.Code.PlayerLogic
             {
                 if (targetsInAttackRange.Count - 1 <= 0)
                 {
-                    StopCoroutine(attackCorotine);
+                    _isAtatck = false;
 
-                    attackCorotine = null;
+                    if (attackCorotine != null)
+                    {
+                        StopCoroutine(attackCorotine);
+
+                        attackCorotine = null;
+                    }
                 }
                 
                 targetsInAttackRange.Remove(target);

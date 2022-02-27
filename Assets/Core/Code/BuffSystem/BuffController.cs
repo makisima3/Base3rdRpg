@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Core.Code.BuffSystemImpls.Effects;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Core.Code.BuffSystem
@@ -18,12 +18,40 @@ namespace Core.Code.BuffSystem
             where TBuff : IBuff<TStats>
         {
             buff.Apply(stats);
-            var effect = GetComponentInChildren<IEffect<TStats, TBuff>>(true);
-            //вот тут не нашел эффект 
-            if(effect == null)
-                return;
             
-            effect.Activate(stats, buff);
+            var effect = GetComponentInChildren<IEffect>(true);
+            effect?.Activate();
+
+            Action deactivateAction = () =>
+            {
+                buff.Reset(stats);
+                effect?.Deactivate();
+            };
+
+            switch (buff.DurationType)
+            {
+                case DurationType.Common:
+                    DelayRun(buff.Duration, deactivateAction);
+                    break;
+                case DurationType.OneTime:
+                    deactivateAction.Invoke();
+                    break;
+                case DurationType.Endless:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private void DelayRun(float delay, Action action)
+        {
+            StartCoroutine(Delayer(delay, action));
+        }
+        
+        private IEnumerator Delayer(float delay, Action action)
+        {
+            yield return new WaitForSeconds(delay);
+            action?.Invoke();
         }
     }
 }
