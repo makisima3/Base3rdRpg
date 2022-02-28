@@ -2,6 +2,6 @@
 {
     public interface ITarget
     {
-        void TakeDamage(float damage);
+        void TakeDamage(float damage, bool isCritical);
     }
 }

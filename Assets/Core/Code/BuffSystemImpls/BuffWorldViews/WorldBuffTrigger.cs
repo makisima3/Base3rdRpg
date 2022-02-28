@@ -6,7 +6,7 @@ namespace Core.Code.BuffSystemImpls.BuffWorldViews
     [RequireComponent(typeof(Collider))]
     public abstract class WorldBuffTrigger<TStats, TBuff>: MonoBehaviour
         where TStats: IStats
-        where TBuff : IBuff<TStats>
+        where TBuff : IBuff<TStats>, IBuff<IStats>
     {
         [SerializeField] private TBuff buff;
         

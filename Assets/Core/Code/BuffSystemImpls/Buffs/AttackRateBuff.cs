@@ -7,26 +7,25 @@ using UnityEngine;
 namespace Core.Code.BuffSystemImpls.Buffs
 {
     [Serializable]
-    public class DamageBuff : IBuff<IHasDamageStat>, IBuff<IStats>
+    public class AttackRateBuff : IBuff<IHasAttackRateStat>, IBuff<IStats>
     {
         [SerializeField] private float duration = 5f;
         [SerializeField] private float multiplier = 1.5f;
 
         public DurationType DurationType => DurationType.Common;
         public float Duration => duration;
+        public void Apply(IStats stats) => Apply(stats as IHasAttackRateStat);
 
-        public void Apply(IStats stats) => Apply(stats as IHasDamageStat);
+        public void Reset(IStats stats) => Reset(stats as IHasAttackRateStat);
 
-        public void Reset(IStats stats) => Reset(stats as IHasDamageStat);
-        
-        public void Apply(IHasDamageStat stats)
+        public void Apply(IHasAttackRateStat stats)
         {
-            stats.Damage += stats.BaseDamage * multiplier;
+            stats.AttackRate += stats.BaseAttackRate * multiplier;
         }
 
-        public void Reset(IHasDamageStat stats)
+        public void Reset(IHasAttackRateStat stats)
         {
-            stats.Damage -= stats.BaseDamage * multiplier;
+            stats.AttackRate -= stats.BaseAttackRate * multiplier;
         }
     }
 }

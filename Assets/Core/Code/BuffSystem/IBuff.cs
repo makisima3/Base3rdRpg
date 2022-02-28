@@ -1,6 +1,7 @@
 ﻿namespace Core.Code.BuffSystem
 {
     public interface IBuff<in TStats>
+        where TStats: IStats
     {
         DurationType DurationType { get; }
         

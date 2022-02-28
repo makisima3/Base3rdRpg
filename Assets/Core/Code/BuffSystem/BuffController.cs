@@ -15,17 +15,17 @@ namespace Core.Code.BuffSystem
         }
 
         public void Apply<TBuff>(TBuff buff) 
-            where TBuff : IBuff<TStats>
+            where TBuff : IBuff<IStats>
         {
             buff.Apply(stats);
             
-            var effect = GetComponentInChildren<IEffect>(true);
-            effect?.Activate();
+            var effect = GetComponentInChildren<IEffect<TBuff>>(true);
+            effect?.Activate(buff);
 
             Action deactivateAction = () =>
             {
                 buff.Reset(stats);
-                effect?.Deactivate();
+                effect?.Deactivate(buff);
             };
 
             switch (buff.DurationType)

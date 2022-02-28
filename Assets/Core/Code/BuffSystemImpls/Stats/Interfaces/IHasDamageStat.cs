@@ -1,6 +1,6 @@
 ﻿using Core.Code.BuffSystem;
 
-namespace Core.Code.BuffSystemImpls.Stats
+namespace Core.Code.BuffSystemImpls.Stats.Interfaces
 {
     public interface IHasDamageStat : IStats
     {

@@ -1,8 +1,13 @@
-﻿namespace Core.Code.BuffSystem
+﻿using System.Collections.Generic;
+
+namespace Core.Code.BuffSystem
 {
-    public interface IEffect
+    public interface IEffect<TBuff>
+        where TBuff : IBuff<IStats>
     {
-        void Activate();
-        void Deactivate();
+        List<TBuff> ActiveBuffs { get; }
+
+        void Activate(TBuff buff);
+        void Deactivate(TBuff buff);
     }
 }

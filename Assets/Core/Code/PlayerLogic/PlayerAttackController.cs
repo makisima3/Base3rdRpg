@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using Core.Code.BuffSystem;
 using Core.Code.BuffSystemImpls.Stats;
 using Core.Code.EnemiesLogic;
+using Core.Code.Utils;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 namespace Core.Code.PlayerLogic
 {
@@ -26,19 +28,6 @@ namespace Core.Code.PlayerLogic
             targetsInAttackRange = new List<ITarget>();
         }
 
-        private void Update()
-        {
-            Debug.Log(movementController.IsMoving);
-            
-            /*if (movementController.IsMoving)
-            {
-                if (attackCorotine != null)
-                {
-                    StopCoroutine(attackCorotine);
-                    attackCorotine = null;
-                }
-            }*/
-        }
 
         private IEnumerator AttackCorotine()
         {
@@ -48,7 +37,13 @@ namespace Core.Code.PlayerLogic
                 {
                     foreach (var target in targetsInAttackRange)
                     {
-                        target.TakeDamage(playerStats.Damage);
+                        var isCritical = ChancesUtils.CheckChance(playerStats.CriticalChance);
+
+                        var damage = isCritical
+                            ? playerStats.Damage * playerStats.CriticalDamageMultipler
+                            : playerStats.Damage;
+
+                            target.TakeDamage(damage, isCritical);
                     }
                 }
 
