@@ -1,6 +1,7 @@
-﻿using Core.Code.BuffSystemImpls.Stats.Interfaces;
+﻿using System;
+using Core.Code.BuffSystemImpls.Stats.Interfaces;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.Events;
 
 namespace Core.Code.BuffSystemImpls.Stats
 {
@@ -8,22 +9,25 @@ namespace Core.Code.BuffSystemImpls.Stats
         IHasCriticalChanceStat
     {
         [SerializeField] private float baseDamage;
-        [SerializeField, Tooltip("Attack count in second")] private float baseAttackRate;
+        [SerializeField, Tooltip("Attack per second")] private float baseAttackRate;
         [SerializeField] private float baseSpeed;
-        [SerializeField, Range(1f, float.MaxValue)] private float baseCriticalDamageMultipler;
+        [SerializeField, Range(1f, float.MaxValue)] private float baseCriticalDamageMultiplier;
         [SerializeField, Range(0f, 1f)] private float baseCriticalChance;
+        [SerializeField] private UnityEvent<IHasAttackRateStat> onChanged;
 
         public float BaseDamage => baseDamage;
         public float BaseAttackRate => baseAttackRate;
         public float BaseSpeed => baseSpeed;
-        public float BaseCriticalDamageMultipler => baseCriticalDamageMultipler;
+        public float BaseCriticalDamageMultiplier => baseCriticalDamageMultiplier;
         public float BaseCriticalChance => baseCriticalChance;
 
         public float Damage { get; set; }
         public float AttackRate { get; set; }
         public float Speed { get; set; }
-        public float CriticalDamageMultipler { get; set; }
+        public float CriticalDamageMultiplier { get; set; }
         public float CriticalChance { get; set; }
+
+        public UnityEvent<IHasAttackRateStat> OnChanged => onChanged;
 
         public void Initialize()
         {
@@ -31,7 +35,13 @@ namespace Core.Code.BuffSystemImpls.Stats
             AttackRate = BaseAttackRate;
             Speed = BaseSpeed;
             CriticalChance = BaseCriticalChance;
-            CriticalDamageMultipler = BaseCriticalDamageMultipler;
+            CriticalDamageMultiplier = BaseCriticalDamageMultiplier;
+        }
+
+        public void UpdateThis(Action<IHasAttackRateStat> updateAction = null)
+        {
+            updateAction?.Invoke(this);
+            OnChanged.Invoke(this);
         }
     }
 }

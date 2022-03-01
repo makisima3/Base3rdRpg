@@ -21,12 +21,12 @@ namespace Core.Code.BuffSystemImpls.Buffs
         
         public void Apply(IHasCriticalDamageStat stats)
         {
-            stats.CriticalDamageMultipler += additionalCriticalDamage;
+            stats.CriticalDamageMultiplier += additionalCriticalDamage;
         }
 
         public void Reset(IHasCriticalDamageStat stats)
         {
-            stats.CriticalDamageMultipler += additionalCriticalDamage;
+            stats.CriticalDamageMultiplier += additionalCriticalDamage;
         }
     }
 }

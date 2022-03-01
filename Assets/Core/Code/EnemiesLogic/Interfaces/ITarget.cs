@@ -1,7 +1,9 @@
-﻿namespace Core.Code.EnemiesLogic
+﻿using Core.Code.Models;
+
+namespace Core.Code.EnemiesLogic
 {
     public interface ITarget
     {
-        void TakeDamage(float damage, bool isCritical);
+        void TakeDamage(Damage damage);
     }
 }

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Core.Code.BuffSystem;
 using Core.Code.BuffSystemImpls.Stats;
 using Core.Code.EnemiesLogic;
+using Core.Code.Models;
+using Core.Code.PlayerLogic.States;
 using Core.Code.Utils;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -12,89 +14,65 @@ using Random = UnityEngine.Random;
 namespace Core.Code.PlayerLogic
 {
     [RequireComponent(typeof(Collider))]
-    
     public class PlayerAttackController : MonoBehaviour
     {
+        [SerializeField] private PlayerStateMachine playerStateMachine;
         [SerializeField] private PlayerMovementController movementController;
         [SerializeField] private PlayerStats playerStats;
-        
-        private Coroutine attackCorotine;
-        private List<ITarget> targetsInAttackRange;
 
-        private bool _isAtatck;
-        
+        private List<ITarget> _targetsInAttackRange;
+
         public void Init()
         {
-            targetsInAttackRange = new List<ITarget>();
+            _targetsInAttackRange = new List<ITarget>();
         }
 
-
-        private IEnumerator AttackCorotine()
+        public void TryStartAttack()
         {
-            while (_isAtatck)
+            if (_targetsInAttackRange.Count > 0)
             {
-                if (!movementController.IsMoving)
-                {
-                    
-                }
-
-                yield return new WaitForSeconds(1 / playerStats.AttackRate);
+                playerStateMachine.CurrentStateType = PlayerStateMachine.States.AttackNormal;
             }
         }
-
+        
         public void Attack()
         {
-            foreach (var target in targetsInAttackRange)
+            foreach (var target in _targetsInAttackRange)
             {
                 var isCritical = ChancesUtils.CheckChance(playerStats.CriticalChance);
 
-                var damage = isCritical
-                    ? playerStats.Damage * playerStats.CriticalDamageMultipler
+                var damageAmount = isCritical
+                    ? playerStats.Damage * playerStats.CriticalDamageMultiplier
                     : playerStats.Damage;
 
-                target.TakeDamage(damage, isCritical);
+                var damage = new Damage()
+                {
+                    Amount = damageAmount,
+                    IsCritical = isCritical
+                };
+
+                target.TakeDamage(damage);
             }
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent<ITarget>(out var target))
-            {
-                targetsInAttackRange.Add(target);
-
-                if (targetsInAttackRange.Count == 1)
-                {
-                    _isAtatck = true;
-
-                    if (attackCorotine != null)
-                    {
-                        StopCoroutine(attackCorotine);
-
-                        attackCorotine = null;
-                    }
-                    
-                    attackCorotine = StartCoroutine(AttackCorotine());
-                }
-            }
+            if (!other.TryGetComponent<ITarget>(out var target)) 
+                return;
+            
+            _targetsInAttackRange.Add(target);
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.TryGetComponent<ITarget>(out var target))
+            if (!other.TryGetComponent<ITarget>(out var target)) 
+                return;
+            
+            _targetsInAttackRange.Remove(target);
+
+            if (_targetsInAttackRange.Count <= 0)
             {
-                if (targetsInAttackRange.Count - 1 <= 0)
-                {
-                    _isAtatck = false;
-
-                    if (attackCorotine != null)
-                    {
-                        StopCoroutine(attackCorotine);
-
-                        attackCorotine = null;
-                    }
-                }
-                
-                targetsInAttackRange.Remove(target);
+                playerStateMachine.CurrentStateType = PlayerStateMachine.States.Idle;
             }
         }
     }

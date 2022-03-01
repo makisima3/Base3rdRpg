@@ -506,7 +506,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2003986166}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &454270514
 MonoBehaviour:
@@ -520,6 +520,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4275b36a8304391bef6ba887018c2ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerStateMachine: {fileID: 571132299}
   movementController: {fileID: 2003986162}
   playerStats: {fileID: 2003986163}
 --- !u!65 &454270515
@@ -646,6 +647,115 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &571132297
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 571132298}
+  - component: {fileID: 571132303}
+  - component: {fileID: 571132302}
+  - component: {fileID: 571132301}
+  - component: {fileID: 571132300}
+  - component: {fileID: 571132299}
+  m_Layer: 0
+  m_Name: StateMachine
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &571132298
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 571132297}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2003986166}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &571132299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 571132297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 036bc5256fdc45589e19d9c4324d2c33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firstStateType: 0
+  currentStateType: 0
+--- !u!114 &571132300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 571132297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 062cd5f047a049bcb2ba170d1bc81d61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &571132301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 571132297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18a3b55edb7d42e2be056061bc43b5a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animatorParameterNames:
+    isRun: IsRunning
+    runBlend: WalkRunBlend
+  animator: {fileID: 5049194320353812171}
+  joystick: {fileID: 1215644293}
+  playerMovementController: {fileID: 2003986162}
+--- !u!114 &571132302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 571132297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 529776a892f845c4bbd32c7ec1405e7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animatorParameterNames:
+    isAttackNormal: IsAttackNormal
+    attackNormalSpeed: AttackNormalSpeed
+  playerStats: {fileID: 2003986163}
+  animator: {fileID: 5049194320353812171}
+--- !u!114 &571132303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 571132297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e515d9bf99a425f91d828c586652730, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerAttackController: {fileID: 454270514}
 --- !u!1 &615001832
 GameObject:
   m_ObjectHideFlags: 0
@@ -739,36 +849,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &673564530
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 673564531}
-  m_Layer: 0
-  m_Name: BuffsViews
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &673564531
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 673564530}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2003986166}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &766538496
 GameObject:
   m_ObjectHideFlags: 0
@@ -1897,6 +1977,7 @@ GameObject:
   - component: {fileID: 2003986163}
   - component: {fileID: 2003986168}
   - component: {fileID: 2003986169}
+  - component: {fileID: 2003986164}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1918,9 +1999,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   joystick: {fileID: 1215644293}
   playerStats: {fileID: 2003986163}
-  dashForce: 10
-  speedSmooth: 0.1
-  dashEdge: 0.7
+  playerStateMachine: {fileID: 571132299}
+  movingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  speedIncreaseDuration: 1
+  speedDecreaseDuration: 0.2
 --- !u!114 &2003986163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1934,10 +2039,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseDamage: 1
-  baseAttackRate: 5
+  baseAttackRate: 1
   baseSpeed: 3
-  baseCriticalDamageMultipler: 0
+  baseCriticalDamageMultiplier: 1.2
   baseCriticalChance: 0.2
+  onChanged:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &2003986164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2003986161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4419a9ae74734c2d8ab035f76bf5e64c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetAnimator: {fileID: 5049194320353812171}
+  playerAttackController: {fileID: 454270514}
 --- !u!4 &2003986166
 Transform:
   m_ObjectHideFlags: 0
@@ -1950,8 +2072,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5573635371606705264}
-  - {fileID: 673564531}
   - {fileID: 454270513}
+  - {fileID: 571132298}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3470,6 +3592,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5573635371606705264}
+  - component: {fileID: 5049194320353812171}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -3477,6 +3600,25 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!95 &5049194320353812171
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5049194320353812170}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 95ad89dcdc86d7946acff4f78921d088, type: 3}
+  m_Controller: {fileID: 9100000, guid: 4edb6a7bd2f5e3243a4444c488a3dcd7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!4 &5082944492741707525
 Transform:
   m_ObjectHideFlags: 0

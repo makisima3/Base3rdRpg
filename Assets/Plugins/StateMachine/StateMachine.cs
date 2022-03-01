@@ -7,7 +7,7 @@ namespace Plugins.StateMachine
     public abstract class StateMachine<TStateType> : MonoBehaviour
         where TStateType : Enum
     {
-        [SerializeField] protected TStateType firstStateType;
+        [SerializeField] private TStateType firstStateType;
         [SerializeField] private TStateType currentStateType;
 
         private Dictionary<TStateType, State<TStateType>> _states;
@@ -47,6 +47,12 @@ namespace Plugins.StateMachine
             foreach (var state in GetComponents<State<TStateType>>())
             {
                 AddState(state.Type, state);
+            }
+
+            if (_states.TryGetValue(firstStateType, out var firstState))
+            {
+                CurrentState = firstState;
+                CurrentState.OnEnter(firstStateType);
             }
         }
 

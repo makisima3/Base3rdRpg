@@ -20,12 +20,19 @@ namespace Core.Code.BuffSystemImpls.Buffs
 
         public void Apply(IHasAttackRateStat stats)
         {
-            stats.AttackRate += stats.BaseAttackRate * multiplier;
+            
+            stats.UpdateThis(statsIn =>
+            {
+                statsIn.AttackRate += stats.BaseAttackRate * multiplier;
+            });
         }
 
         public void Reset(IHasAttackRateStat stats)
         {
-            stats.AttackRate -= stats.BaseAttackRate * multiplier;
+            stats.UpdateThis(statsIn =>
+            {
+                statsIn.AttackRate -= stats.BaseAttackRate * multiplier;
+            });
         }
     }
 }

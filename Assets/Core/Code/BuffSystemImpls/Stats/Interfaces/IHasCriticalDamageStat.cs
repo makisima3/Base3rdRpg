@@ -4,7 +4,7 @@ namespace Core.Code.BuffSystemImpls.Stats.Interfaces
 {
     public interface IHasCriticalDamageStat : IStats
     {
-        float CriticalDamageMultipler { get; set; }
-        float BaseCriticalDamageMultipler { get; }
+        float CriticalDamageMultiplier { get; set; }
+        float BaseCriticalDamageMultiplier { get; }
     }
 }
