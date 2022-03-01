@@ -35,19 +35,24 @@ namespace Core.Code.PlayerLogic
             {
                 if (!movementController.IsMoving)
                 {
-                    foreach (var target in targetsInAttackRange)
-                    {
-                        var isCritical = ChancesUtils.CheckChance(playerStats.CriticalChance);
-
-                        var damage = isCritical
-                            ? playerStats.Damage * playerStats.CriticalDamageMultipler
-                            : playerStats.Damage;
-
-                            target.TakeDamage(damage, isCritical);
-                    }
+                    
                 }
 
                 yield return new WaitForSeconds(1 / playerStats.AttackRate);
+            }
+        }
+
+        public void Attack()
+        {
+            foreach (var target in targetsInAttackRange)
+            {
+                var isCritical = ChancesUtils.CheckChance(playerStats.CriticalChance);
+
+                var damage = isCritical
+                    ? playerStats.Damage * playerStats.CriticalDamageMultipler
+                    : playerStats.Damage;
+
+                target.TakeDamage(damage, isCritical);
             }
         }
 
